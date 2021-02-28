@@ -1,0 +1,10 @@
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\bin\Debug\mp3Uniter.exe.config
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\bin\Debug\mp3Uniter.exe
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\bin\Debug\mp3Uniter.pdb
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\obj\Debug\mp3Uniter.csprojAssemblyReference.cache
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\obj\Debug\mp3Uniter.Form1.resources
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\obj\Debug\mp3Uniter.Properties.Resources.resources
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\obj\Debug\mp3Uniter.csproj.GenerateResource.cache
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\obj\Debug\mp3Uniter.csproj.CoreCompileInputs.cache
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\obj\Debug\mp3Uniter.exe
+C:\Users\DESKTOP PC\Desktop\mp3Uniter\mp3Uniter\obj\Debug\mp3Uniter.pdb
