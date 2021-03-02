@@ -15,24 +15,26 @@ namespace mp3Uniter
 
     public partial class Form1 : Form
     {
-        List<byte> allBytes = new List<byte>();
         Queue<string> fileNames = new Queue<string>();
+        decimal size = 0;
+        int added = 0;
+
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void Btn_Add_DragDrop(object sender, DragEventArgs e)
+        private void Btn_render_Click(object sender, EventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            MessageBox.Show(files[0]);
+            Combinator(fileNames, SaveWay());
+            Btn_render.Enabled = false;
+            size = 0;
+            added = 0;
+            info.ForeColor = Color.Green;
+            info.Text = "Готово!";
         }
 
-        private void Btn_Add_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Copy;
-        }
         public string TakeFile()
         {
             OpenFileDialog source = new OpenFileDialog();
@@ -45,15 +47,40 @@ namespace mp3Uniter
             {
                 return null;
             }
-
         }
 
-        static void Unioner(Queue<string> names)
+        public bool InputValidator(string input)
+        {
+            if (input == null)
+            {
+                return false;
+            }
+
+            bool inputValidator = false;
+
+            Regex mp3InputValidator = new Regex(@"^[\w\D]+\.mp3");
+
+            if (mp3InputValidator.IsMatch(input))
+            {
+                inputValidator = true;
+            }
+
+            if (inputValidator)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        static void Combinator(Queue<string> names, string saveWay)
         {
             bool activate = false;
             string fileToRead = names.Dequeue();
 
-            using (FileStream writer = new FileStream(@"C:\Users\DESKTOP PC\Desktop\as\okay.mp3", FileMode.Create))
+            using (FileStream writer = new FileStream(saveWay, FileMode.Create))
             {
                 while (names.Count > 0)
                 {
@@ -84,52 +111,67 @@ namespace mp3Uniter
 
                             writer.Write(buffer, 0, buffer.Length);
                         }
-
                     }
                 }
             }
         }
-
-        public bool InputValidator(string input)
-        {
-            bool inputValidator = false;
-
-            Regex mp3InputValidator = new Regex(@"^[\w\D]*\.mp3");
-
-            if (mp3InputValidator.IsMatch(input))
-            {
-                inputValidator = true;
-            }
-
-            if (inputValidator)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
+       
         private void Btn_Add_Click(object sender, EventArgs e)
         {
+            info.ForeColor = Color.Black;
             string fileName = TakeFile();
             if (InputValidator(fileName))
-            {
-                Btn_Add.Text = fileName;
+            {            
+                added++;
                 fileNames.Enqueue(fileName);
+                size += FileSize(fileName);
+                info.Text = $"Добавени {added} песни - Общо {size / 1024 / 1024:F02}MB";
+                if (added > 1)
+                {
+                    Btn_render.Enabled = true;
+                }
             }
             else
             {
                 MessageBox.Show("Невалидно съдържание! Програмата обединява само файлове с .mp3 удължения!"
                     , "ГРЕШКА!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        static long FileSize(string path)
         {
-            Unioner(fileNames);
+            FileInfo size = new FileInfo(path);
+            long currentSize = size.Length;
+            return currentSize;        
         }
+
+        static string SaveWay()
+        {
+            string extension = "\\result.mp3";
+            string saveWay = string.Empty;
+            
+            using (FolderBrowserDialog fdb = new FolderBrowserDialog() { Description = "Моля изберете път за записване!" })
+            {
+                if (fdb.ShowDialog() == DialogResult.OK)
+                {
+                    saveWay = fdb.SelectedPath;
+                }
+                else
+                {
+                    while (saveWay == string.Empty)
+                    {
+                        MessageBox.Show("Моля изберете път за записване!", "ВНИМАНИЕ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        if (fdb.ShowDialog() == DialogResult.OK)
+                        {
+                            saveWay = fdb.SelectedPath;
+                        }
+                    }
+                }
+
+                string fullSaveWay = saveWay + extension;
+                return fullSaveWay;
+            }
+        }    
     }
 }
